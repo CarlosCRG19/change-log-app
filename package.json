@@ -1,0 +1,15 @@
+{
+  "name": "change-log-app",
+  "version": "1.0.0",
+  "description": "A website that allows a product manager or engineer to post projects/products updates for the team and stakeholders to see.",
+  "repository": "git@github.com:CarlosCRG19/change-log-app.git",
+  "author": "CarlosCRG19 <carloscrg19@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "start:dev": "concurrently \"cd server && yarn start:dev\" \"cd client && yarn start:dev\" "
+  },
+  "dependencies": {
+    "concurrently": "^7.6.0"
+  }
+}

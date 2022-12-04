@@ -2,6 +2,9 @@
 node_modules/
 client/node_modules/
 client/dist/
-client/.env
+client/.env*
 server/node_modules/
 server/dist/
+
+# Local Netlify folder
+.netlify

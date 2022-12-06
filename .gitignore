@@ -5,6 +5,7 @@ client/dist/
 client/.env*
 server/node_modules/
 server/dist/
+server/.env
 
 # Local Netlify folder
 .netlify

@@ -1,29 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
-import { useClient } from '@/hooks';
+import { Content, Header } from '@/components';
+import { CreateProject } from '@/views';
 
-import './App.css';
-
-const App = () => {
-  const [message, setMessage] = useState('Hello from the front-end side!');
-
-  const client = useClient();
-
-  useEffect(() => {
-    const getMessage = async () => {
-      const { data: newMessage } = await client.getHelloWorld();
-
-      setMessage(newMessage);
-    };
-
-    getMessage();
-  }, []);
-
-  return (
-    <div>
-      <p>{message}</p>
-    </div>
-  );
-};
+const App = () => (
+  <Router>
+    <Header />
+    <Content>
+      <Routes>
+        <Route path="/projects" element={<div><p>Projects List</p></div>} />
+        <Route path="/projects/create" element={<CreateProject />} />
+      </Routes>
+    </Content>
+  </Router>
+);
 
 export default App;

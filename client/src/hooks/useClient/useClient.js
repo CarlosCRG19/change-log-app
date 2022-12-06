@@ -1,13 +1,15 @@
 import { useMemo } from 'react';
 
-import HttpClient from './httpClient';
+import ProjectsClient from './ProjectsClient';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 const useClient = () => {
-  const client = useMemo(() => new HttpClient(API_URL), []);
+  const clients = useMemo(() => ({
+    projects: new ProjectsClient(`${API_URL}/projects`),
+  }), []);
 
-  return client;
+  return clients;
 };
 
 export default useClient;

@@ -19,7 +19,7 @@ module.exports = {
       namedComponents: 'arrow-function',
       unnamedComponents: 'arrow-function',
     }],
-    'import/prefer-default-export': 'warn',
+    'import/prefer-default-export': 'off',
   },
   settings: {
     'import/resolver': [
@@ -32,7 +32,9 @@ module.exports = {
       {
         alias: {
           map: [
+            ['@/components', './src/components'],
             ['@/hooks', './src/hooks'],
+            ['@/views', './src/views'],
           ],
           extensions: ['.js', '.jsx'],
         },

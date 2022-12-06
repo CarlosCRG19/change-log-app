@@ -20,11 +20,20 @@ class HttpClient {
   _initializeInterceptors() {
     this._instance.interceptors.response.use(
       this._handleResponse,
+      this._handleError,
     );
   }
 
   _handleResponse({ data }) {
     return data;
+  }
+
+  async _handleError(error) {
+    if (process.env.TARGET_ENV !== 'production') {
+      console.log(error.response?.data)
+    }
+
+    return Promise.reject(error);
   }
 
   async getHelloWorld() {

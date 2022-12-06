@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import express from 'express';
 
-import * as projectController from '@controllers/projects';
+import * as projectController from '@/controllers/projects';
 
 const router = express.Router();
 

@@ -9,7 +9,7 @@
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint --fix . --ext .ts",
     "start:dev": "nodemon src/index.ts",
-    "start:prod": "node dist/index.js"
+    "start:prod": "node -r ./tsconfig-paths.js dist/index.js"
   },
   "dependencies": {
     "cors": "^2.8.5",

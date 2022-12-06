@@ -2,8 +2,8 @@ import 'dotenv/config';
 import cors from 'cors';
 import express, { Application, Request, Response } from 'express';
 
-import dataSource from '@dataSource';
-import { projectsRoutes } from '@routes';
+import dataSource from '@/dataSource';
+import { projectsRoutes } from '@/routes';
 
 const initializeExpress = (): void => {
   let PORT: number = parseInt(process.env.PORT ?? '');

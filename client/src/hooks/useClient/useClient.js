@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import ProjectsClient from './ProjectsClient';
+import ProjectsClient from './projectsClient';
 
 const API_URL = import.meta.env.VITE_API_URL;
 

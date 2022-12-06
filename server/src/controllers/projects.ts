@@ -1,7 +1,7 @@
 import { Response, Request } from 'express';
 
-import { NoEntityFoundError } from '@errors';
-import { Projects } from '@models';
+import { NoEntityFoundError } from '@/errors';
+import { Projects } from '@/models';
 
 export const getList = async (_: Request, res: Response): Promise<void> => {
   try {

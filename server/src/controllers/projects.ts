@@ -1,11 +1,21 @@
 import { Response, Request } from 'express';
+import { Raw } from 'typeorm';
 
 import { NoEntityFoundError } from '@/errors';
 import { Projects } from '@/models';
 
-export const getList = async (_: Request, res: Response): Promise<void> => {
+export const getList = async (req: Request, res: Response): Promise<void> => {
   try {
-    const projects = await Projects.find();
+    const filters: any = {};
+
+    if (req.query.name !== undefined && typeof req.query.name === 'string') {
+      filters.name = Raw((alias) => `LOWER(${alias}) LIKE LOWER(:value)`, { value: `%${req.query.name}%` });
+    }
+
+    const projects = await Projects.find({
+      order: { createdAt: 'DESC' },
+      where: { ...filters },
+    });
 
     if (projects === undefined || (projects.length === 0)) throw new NoEntityFoundError(Projects.name);
 

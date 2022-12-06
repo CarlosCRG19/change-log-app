@@ -29,7 +29,7 @@ class HttpClient {
   }
 
   async _handleError(error) {
-    if (process.env.TARGET_ENV !== 'production') {
+    if (import.meta.env.TARGET_ENV !== 'production') {
       console.log(error.response?.data)
     }
 

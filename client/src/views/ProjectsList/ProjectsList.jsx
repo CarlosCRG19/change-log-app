@@ -10,16 +10,36 @@ import { useSearchParams } from 'react-router-dom';
 
 import { useClient } from '@/hooks';
 
+import Paginator from './components/Paginator';
 import SearchHeader from './components/SearchHeader';
 
 const formatDatetime = (datetime) => {
   const date = new Date(datetime);
 
-  return date.toDateString();
+  return date.toLocaleDateString('en-US', { day: 'numeric', year: 'numeric', month: 'long' });
 };
+
+const renderProjectCard = (project) => (
+  <Col key={project.id} className="d-flex align-items-stretch gy-4" md={4}>
+    <Card style={{ width: '100%' }}>
+      <Card.Header>Created by author</Card.Header>
+      <Card.Body className="d-flex flex-column">
+        <Card.Title>{project.name}</Card.Title>
+        <Card.Text className="mb-4">{project.description}</Card.Text>
+        <Card.Link className="mt-auto align-self-end" href={`/projects/${project.id}`}>See detail</Card.Link>
+      </Card.Body>
+      <Card.Footer>
+        posted on
+        {' '}
+        {formatDatetime(project.createdAt)}
+      </Card.Footer>
+    </Card>
+  </Col>
+);
 
 const ProjectsList = () => {
   const [isAdvancedSearch, setIsAdvancedSearch] = useState(false);
+  const [pagination, setPagination] = useState({ page: 1, totalPages: 1 });
   const [projects, setProjects] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -39,6 +59,21 @@ const ProjectsList = () => {
     setSearchParams(searchParams);
   };
 
+  const loadProjects = async () => {
+    const newParams = Object.fromEntries(searchParams);
+
+    try {
+      const response = await client.projects.getList({ ...newParams });
+
+      setPagination(response.pagination);
+      setProjects(response.projects);
+    } catch (error) {
+      if (error.code === 'NO_ENTITY_FOUND') {
+        setProjects([]);
+      }
+    }
+  };
+
   const handleAdvancedSearchChange = () => {
     setIsAdvancedSearch((prevIsAdvancedSearch) => {
       if (prevIsAdvancedSearch) {
@@ -52,20 +87,6 @@ const ProjectsList = () => {
     });
   };
 
-  const loadProjects = async () => {
-    const newParams = Object.fromEntries(searchParams);
-
-    try {
-      const { projects: loadedProjects } = await client.projects.getList({ ...newParams });
-
-      setProjects(loadedProjects);
-    } catch (error) {
-      if (error.code === 'NO_ENTITY_FOUND') {
-        setProjects([]);
-      }
-    }
-  };
-
   const handleSearch = async (data) => {
     let filters = { ...data };
 
@@ -74,6 +95,12 @@ const ProjectsList = () => {
     }
 
     Object.entries(filters).forEach(([key, value]) => processSearchParams(key, value));
+
+    await loadProjects();
+  };
+
+  const handlePageChange = async (newPage) => {
+    processSearchParams('page', newPage);
 
     await loadProjects();
   };
@@ -94,26 +121,15 @@ const ProjectsList = () => {
         {projects?.length === 0 && (
           <Alert variant="danger">No projects to show. Try changing your search or create your own project!</Alert>
         )}
-        {projects?.length > 0 && projects.map((project) => (
-          <Col md={4}>
-            <Card key={project.id}>
-              <Card.Header>Created by author</Card.Header>
-              <Card.Body>
-                <Card.Title>{project.name}</Card.Title>
-                <Card.Text>{project.description}</Card.Text>
-              </Card.Body>
-              <Card.Body>
-                <Card.Link href={`/projects/${project.id}`}>See detail</Card.Link>
-              </Card.Body>
-              <Card.Footer>
-                posted on
-                {' '}
-                {formatDatetime(project.createdAt)}
-              </Card.Footer>
-            </Card>
-          </Col>
-        ))}
+        {projects?.length > 0 && projects.map(renderProjectCard)}
       </Row>
+      {projects?.length > 0 && (
+        <Paginator
+          currentPage={pagination.page}
+          totalPages={pagination.totalPages}
+          onChange={handlePageChange}
+        />
+      )}
     </Container>
   );
 };

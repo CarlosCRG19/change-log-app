@@ -22,7 +22,7 @@ const SearchHeader = (props) => {
   });
 
   return (
-    <Row className="mb-5">
+    <Row className="mb-4">
       <Form onSubmit={handleSubmit(onSearch)}>
         <InputGroup>
           <Form.Control

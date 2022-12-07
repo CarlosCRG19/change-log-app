@@ -2,6 +2,7 @@ import { Response, Request } from 'express';
 import { Raw, FindOperator } from 'typeorm';
 
 import { NoEntityFoundError } from '@/errors';
+import { Pagination } from '@/lib';
 import { Projects } from '@/models';
 
 interface ProjectsFilters {
@@ -9,7 +10,7 @@ interface ProjectsFilters {
   createdAt?: FindOperator<any>
 }
 
-const isValidString = (value: any): boolean => value !== undefined && typeof value === 'string';
+const isValidString = (value: any): boolean => value !== undefined && (typeof value === 'string' || value instanceof String);
 
 const getProjectsFilters = (req: Request): ProjectsFilters => {
   const filters: ProjectsFilters = {};
@@ -44,9 +45,21 @@ export const getList = async (req: Request, res: Response): Promise<void> => {
   try {
     const filters = getProjectsFilters(req);
 
-    const projects = await Projects.find({
+    const pagination = new Pagination();
+
+    if (req.query.page !== undefined && !Number.isNaN(req.query.page)) {
+      pagination.page = parseInt(req.query.page as string);
+    }
+
+    if (req.query.perPage !== undefined && !Number.isNaN(req.query.perPage)) {
+      pagination.perPage = parseInt(req.query.perPage as string);
+    }
+
+    const [projects, totalProjects] = await Projects.findAndCount({
       order: { createdAt: 'DESC' },
       where: { ...filters },
+      take: pagination.perPage,
+      skip: pagination.offset,
     });
 
     if (projects === undefined || (projects.length === 0)) {
@@ -54,7 +67,15 @@ export const getList = async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
-    res.status(200).json({ projects });
+    res.status(200).json({
+      projects,
+      count: projects.length,
+      pagination: {
+        page: pagination.page,
+        perPage: pagination.perPage,
+        totalPages: pagination.calculateTotalPages(totalProjects),
+      },
+    });
   } catch (error) {
     res.status(500).json({ message: 'Something went wrong!', ...error });
   }

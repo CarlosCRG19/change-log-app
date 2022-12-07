@@ -33,7 +33,7 @@ class HttpClient {
       console.log(error.response?.data)
     }
 
-    return Promise.reject(error);
+    return Promise.reject(error.response?.data?.error || error.response);
   }
 
   async getHelloWorld() {

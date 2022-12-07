@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
+  Alert,
   Card,
   Col,
   Container,
@@ -18,6 +19,7 @@ const formatDatetime = (datetime) => {
 };
 
 const ProjectsList = () => {
+  const [isAdvancedSearch, setIsAdvancedSearch] = useState(false);
   const [projects, setProjects] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -37,15 +39,43 @@ const ProjectsList = () => {
     setSearchParams(searchParams);
   };
 
-  const handleSearchTermChange = (projectName) => {
-    processSearchParams('name', projectName);
+  const handleAdvancedSearchChange = () => {
+    setIsAdvancedSearch((prevIsAdvancedSearch) => {
+      if (prevIsAdvancedSearch) {
+        searchParams.delete('startDate');
+        searchParams.delete('endDate');
+
+        setSearchParams(searchParams);
+      }
+
+      return !prevIsAdvancedSearch;
+    });
   };
 
   const loadProjects = async () => {
     const newParams = Object.fromEntries(searchParams);
-    const { projects: loadedProjects } = await client.projects.getList({ ...newParams });
 
-    setProjects(loadedProjects);
+    try {
+      const { projects: loadedProjects } = await client.projects.getList({ ...newParams });
+
+      setProjects(loadedProjects);
+    } catch (error) {
+      if (error.code === 'NO_ENTITY_FOUND') {
+        setProjects([]);
+      }
+    }
+  };
+
+  const handleSearch = async (data) => {
+    let filters = { ...data };
+
+    if (!isAdvancedSearch) {
+      filters = { name: filters.name };
+    }
+
+    Object.entries(filters).forEach(([key, value]) => processSearchParams(key, value));
+
+    await loadProjects();
   };
 
   useEffect(() => {
@@ -55,11 +85,16 @@ const ProjectsList = () => {
   return (
     <Container>
       <SearchHeader
-        onSearchTermChange={handleSearchTermChange}
-        onSubmit={loadProjects}
+        initialData={Object.fromEntries(searchParams)}
+        isAdvancedSearch={isAdvancedSearch}
+        onAvancedSearchChange={handleAdvancedSearchChange}
+        onSearch={handleSearch}
       />
       <Row>
-        {projects?.map((project) => (
+        {projects?.length === 0 && (
+          <Alert variant="danger">No projects to show. Try changing your search or create your own project!</Alert>
+        )}
+        {projects?.length > 0 && projects.map((project) => (
           <Col md={4}>
             <Card key={project.id}>
               <Card.Header>Created by author</Card.Header>

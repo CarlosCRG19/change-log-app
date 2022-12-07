@@ -27,11 +27,11 @@ const CreateProject = () => {
         <Form onSubmit={handleSubmit(onSubmit)}>
           <Form.Group className="mb-3">
             <Form.Label>Name: </Form.Label>
-            <Form.Control type="text" {...register("name")} />
+            <Form.Control type="text" {...register('name')} />
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>Description: </Form.Label>
-            <Form.Control type="text" {...register("description")} />
+            <Form.Control type="text" {...register('description')} />
           </Form.Group>
           <div>
             <Button className="float-md-end px-3" variant="light" onClick={navigateToAllProjects}>

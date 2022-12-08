@@ -3,8 +3,11 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+
+import ProjectUpdates from './projectUpdates';
 
 @Entity()
 class Projects extends BaseEntity {
@@ -19,6 +22,9 @@ class Projects extends BaseEntity {
 
   @CreateDateColumn()
     createdAt: Date;
+
+  @OneToMany(() => ProjectUpdates, (update) => update.project)
+    updates: ProjectUpdates[];
 }
 
 export default Projects;

@@ -25,17 +25,22 @@ const getProjectsFilters = (req: Request): ProjectsFilters => {
     const startDate = new Date(req.query.startDate as string);
     const endDate = new Date(req.query.endDate as string);
 
-    if (endDate > startDate) {
-      filters.createdAt = Raw((alias) => `${alias} > :startDate AND ${alias} < :endDate`, { startDate, endDate });
+    startDate.setUTCHours(0, 0, 0, 0);
+    endDate.setUTCHours(23, 59, 59, 999);
+
+    if (endDate.getTime() > startDate.getTime()) {
+      filters.createdAt = Raw((alias) => `${alias} >= :startDate AND ${alias} <= :endDate`, { startDate, endDate });
     }
   } else if (isValidString(req.query.startDate)) {
     const startDate = new Date(req.query.startDate as string);
+    startDate.setUTCHours(0, 0, 0, 0);
 
-    filters.createdAt = Raw((alias) => `${alias} > :startDate`, { startDate });
+    filters.createdAt = Raw((alias) => `${alias} >= :startDate`, { startDate });
   } else if (isValidString(req.query.endDate)) {
     const endDate = new Date(req.query.endDate as string);
+    endDate.setUTCHours(23, 59, 59, 999);
 
-    filters.createdAt = Raw((alias) => `${alias} < :endDate`, { endDate });
+    filters.createdAt = Raw((alias) => `${alias} <= :endDate`, { endDate });
   }
 
   return filters;

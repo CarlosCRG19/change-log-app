@@ -55,11 +55,11 @@ const EditProject = () => {
                   <Form.Control as="textarea" rows="3" {...register('description')} />
                 </Form.Group>
                 <div>
-                  <Button className="float-md-end px-3" variant="light" onClick={navigateToProjectDetail}>
-                    Cancel
-                  </Button>
-                  <Button className="float-md-end me-2 px-3" variant="primary" type="submit">
+                  <Button className="float-end px-3" variant="primary" type="submit">
                     Create
+                  </Button>
+                  <Button className="float-end me-2 px-3" variant="light" onClick={navigateToProjectDetail}>
+                    Cancel
                   </Button>
                 </div>
               </Form>

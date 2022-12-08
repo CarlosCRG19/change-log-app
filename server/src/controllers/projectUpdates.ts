@@ -70,7 +70,7 @@ export const create = async (req: Request, res: Response): Promise<void> => {
 
 export const remove = async (req: Request, res: Response): Promise<void> => {
   try {
-    const update = await Projects.findOneBy({ id: req.params.updateId });
+    const update = await ProjectUpdates.findOneBy({ id: req.params.updateId });
 
     if (update === null) {
       res.status(404).json({ error: new NoEntityFoundError(ProjectUpdates.name) });

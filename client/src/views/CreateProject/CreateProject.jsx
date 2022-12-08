@@ -32,7 +32,7 @@ const CreateProject = () => {
       <Row className="align-items-center">
         <Col className="mx-auto" md={8}>
           <Card>
-            <Card.Header className="text-center py-3" as="h4">Create New Project</Card.Header>
+            <Card.Header className="text-center py-3" as="h4">New Project</Card.Header>
             <Card.Body>
               <Form onSubmit={handleSubmit(onSubmit)}>
                 <Form.Group className="mb-3">
@@ -44,11 +44,11 @@ const CreateProject = () => {
                   <Form.Control as="textarea" rows="3" {...register('description')} />
                 </Form.Group>
                 <div>
-                  <Button className="float-md-end px-3" variant="light" onClick={navigateToAllProjects}>
-                    Cancel
-                  </Button>
-                  <Button className="float-md-end me-2 px-3" variant="primary" type="submit">
+                  <Button className="float-end px-3" variant="primary" type="submit">
                     Create
+                  </Button>
+                  <Button className="float-end px-3 me-2" variant="light" onClick={navigateToAllProjects}>
+                    Cancel
                   </Button>
                 </div>
               </Form>

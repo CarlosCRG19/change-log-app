@@ -9,29 +9,28 @@ import {
 import { useSearchParams } from 'react-router-dom';
 
 import { useClient } from '@/hooks';
+import { convertDatetimeToDateString } from '@/utils';
 
 import Paginator from './components/Paginator';
 import SearchHeader from './components/SearchHeader';
 
-const formatDatetime = (datetime) => {
-  const date = new Date(datetime);
-
-  return date.toLocaleDateString('en-US', { day: 'numeric', year: 'numeric', month: 'long' });
-};
-
 const renderProjectCard = (project) => (
   <Col key={project.id} className="d-flex align-items-stretch gy-4" md={4}>
     <Card style={{ width: '100%' }}>
-      <Card.Header>Created by author</Card.Header>
+      <Card.Header className="text-muted">
+        Created by
+        {' '}
+        <strong>author</strong>
+      </Card.Header>
       <Card.Body className="d-flex flex-column">
         <Card.Title>{project.name}</Card.Title>
         <Card.Text className="mb-4">{project.description}</Card.Text>
         <Card.Link className="mt-auto align-self-end" href={`/projects/${project.id}`}>See detail</Card.Link>
       </Card.Body>
-      <Card.Footer>
+      <Card.Footer className="text-muted">
         posted on
         {' '}
-        {formatDatetime(project.createdAt)}
+        {convertDatetimeToDateString(project.createdAt)}
       </Card.Footer>
     </Card>
   </Col>

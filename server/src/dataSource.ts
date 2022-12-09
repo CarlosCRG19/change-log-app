@@ -17,7 +17,9 @@ const createDataSource = (): DataSource => {
       type: 'postgres',
       url: DB_URL,
       entities: Object.values(models),
-      extra: { rejectUnauthorized: false },
+      synchronize: true,
+      ssl: true,
+      extra: { ssl: { rejectUnauthorized: false } },
     });
   }
 
@@ -29,6 +31,7 @@ const createDataSource = (): DataSource => {
     password: DB_PASSWORD,
     database: DB_DATABASE,
     entities: Object.values(models),
+    synchronize: true,
   });
 };
 

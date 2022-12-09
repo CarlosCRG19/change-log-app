@@ -38,7 +38,7 @@ class ProjectUpdates extends BaseEntity {
   @OneToMany(() => UpdatePoints, (point) => point.update)
     points: UpdatePoints[];
 
-  @ManyToOne(() => Projects, (project) => project.updates)
+  @ManyToOne(() => Projects, (project) => project.updates, { onDelete: 'CASCADE' })
     project: Projects;
 }
 

@@ -3,7 +3,9 @@ import cors from 'cors';
 import express, { Application } from 'express';
 
 import dataSource from '@/dataSource';
+
 import { auth } from '@/lib';
+import { authMiddleware } from '@/middlewares';
 import { authRoutes, projectsRoutes, projectUpdatesRoutes } from '@/routes';
 
 const initializeExpress = (): void => {
@@ -16,6 +18,9 @@ const initializeExpress = (): void => {
   app.use(express.json());
 
   app.use('/', authRoutes);
+
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+  app.use('/', authMiddleware);
 
   app.use('/projects', projectsRoutes);
   app.use('/projects/:projectId/updates', projectUpdatesRoutes);

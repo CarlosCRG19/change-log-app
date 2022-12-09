@@ -6,7 +6,7 @@ import {
   Container,
   Row,
 } from 'react-bootstrap';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { useClient } from '@/hooks';
 import { convertDatetimeToDateString } from '@/utils';
@@ -14,18 +14,18 @@ import { convertDatetimeToDateString } from '@/utils';
 import Paginator from './components/Paginator';
 import SearchHeader from './components/SearchHeader';
 
-const renderProjectCard = (project) => (
+const renderProjectCard = (project, onSeeDetail) => (
   <Col key={project.id} className="d-flex align-items-stretch gy-4" md={4}>
     <Card style={{ width: '100%' }}>
       <Card.Header className="text-muted">
         Created by
         {' '}
-        <strong>author</strong>
+        <strong>{project.creator}</strong>
       </Card.Header>
       <Card.Body className="d-flex flex-column">
         <Card.Title>{project.name}</Card.Title>
         <Card.Text className="mb-4">{project.description}</Card.Text>
-        <Card.Link className="mt-auto align-self-end" href={`/projects/${project.id}`}>See detail</Card.Link>
+        <Card.Link className="mt-auto align-self-end" onClick={onSeeDetail}>See detail</Card.Link>
       </Card.Body>
       <Card.Footer className="text-muted">
         posted on
@@ -43,6 +43,7 @@ const ProjectsList = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const client = useClient();
+  const navigate = useNavigate();
 
   const processSearchParams = (item, value) => {
     if (value) {
@@ -104,6 +105,8 @@ const ProjectsList = () => {
     await loadProjects();
   };
 
+  const handleSeeDetail = (projectId) => () => navigate(`/projects/${projectId}`);
+
   useEffect(() => {
     loadProjects();
   }, []);
@@ -120,7 +123,9 @@ const ProjectsList = () => {
         {projects?.length === 0 && (
           <Alert variant="danger">No projects to show. Try changing your search or create your own project!</Alert>
         )}
-        {projects?.length > 0 && projects.map(renderProjectCard)}
+        {projects?.length > 0 && projects.map(
+          (project) => renderProjectCard(project, handleSeeDetail(project.id)),
+        )}
       </Row>
       {projects?.length > 0 && (
         <Paginator

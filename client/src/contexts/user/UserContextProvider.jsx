@@ -1,14 +1,30 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import UserContext from './UserContext';
 
+import { useClient } from '@/hooks';
+
 const UserContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+
+  const client = useClient();
 
   const value = useMemo(() => ({
     user, setUser,
   }), [user]);
+
+  useEffect(() => {
+    const getUser = async () => {
+      if (localStorage.getItem('cla-token')) {
+        const response = await client.auth.me();
+
+        setUser(response.user);
+      }
+    };
+
+    getUser();
+  }, []);
 
   return (
     <UserContext.Provider value={value}>

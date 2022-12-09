@@ -8,13 +8,16 @@ import {
   Row,
 } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 
 import { useUserContext } from '@/contexts/user';
 import { useClient } from '@/hooks';
 
 const Login = () => {
-  const client = useClient();
   const { setUser } = useUserContext();
+
+  const client = useClient();
+  const navigate = useNavigate();
 
   const { register, handleSubmit } = useForm();
 
@@ -54,7 +57,7 @@ const Login = () => {
                   <Button className="float-end px-4" variant="primary" type="submit">
                     Login
                   </Button>
-                  <Card.Link className="mt-auto align-self-end" href="/signup">I don't have an account</Card.Link>
+                  <Card.Link className="mt-auto align-self-end" onClick={() => navigate('/signup')}>I don't have an account</Card.Link>
                 </div>
               </Form>
             </Card.Body>

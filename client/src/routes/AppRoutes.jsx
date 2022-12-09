@@ -33,7 +33,6 @@ const AppRoutes = () => (
         <Route path=":projectId" element={<ProjectDetail />} />
         <Route path=":projectId/edit" element={<EditProject />} />
       </Route>
-      <Route index path="*" element={<Navigate to="/projects" />} />
     </Route>
   </Routes>
 );

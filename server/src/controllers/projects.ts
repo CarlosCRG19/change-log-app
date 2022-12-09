@@ -125,7 +125,7 @@ export const get = async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
-    res.status(200).json({ ...project, creator: project.creator.username });
+    res.status(200).json({ project: { ...project, creator: project.creator.username } });
   } catch (error) {
     res.status(500).json({ message: 'Something went wrong!', ...error });
   }

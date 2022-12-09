@@ -41,8 +41,8 @@ const ProjectDetail = () => {
     <Container>
       <Row>
         <Col lg={9} xs={12}>
-          <h1>{project.name}</h1>
-          <p className="lead">{project.description}</p>
+          <h1>{project?.name}</h1>
+          <p className="lead">{project?.description}</p>
         </Col>
         <Col>
           <Button className="me-2 me-lg-0 ms-lg-2 px-3 float-lg-end" variant="danger" onClick={deleteProject}>Delete</Button>

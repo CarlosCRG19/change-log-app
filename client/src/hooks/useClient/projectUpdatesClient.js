@@ -12,7 +12,6 @@ class ProjectUpdatesClient extends HttpClient {
   }
 
   async delete(projectId, updateId) {
-    console.log(projectId, updateId);
     return this._instance.delete(`/${projectId}/updates/${updateId}`);
   }
 }

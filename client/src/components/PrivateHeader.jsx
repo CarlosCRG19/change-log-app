@@ -2,7 +2,7 @@ import React from 'react';
 import { Nav, Navbar } from 'react-bootstrap';
 import { useLocation } from 'react-router-dom';
 
-const Header = () => {
+const PrivateHeader = () => {
   const location = useLocation();
 
   return (
@@ -23,4 +23,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default PrivateHeader;

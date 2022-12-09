@@ -30,7 +30,7 @@ const CreateProject = () => {
   return (
     <Container>
       <Row className="align-items-center">
-        <Col className="mx-auto" md={8}>
+        <Col className="mx-auto" md={8} lg={6}>
           <Card>
             <Card.Header className="text-center py-3" as="h4">New Project</Card.Header>
             <Card.Body>

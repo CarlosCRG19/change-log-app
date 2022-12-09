@@ -27,9 +27,9 @@ const ProjectUpdates = ({ projectId }) => {
   }, []);
 
   return (
-    <Row className="mt-5">
+    <Row>
       {(!updates || updates?.length === 0) && (
-        <Col>
+        <Col className="mt-4">
           <Alert variant="secondary">This project currently has no updates to show.</Alert>
         </Col>
       )}

@@ -5,8 +5,8 @@ import UserContext from './UserContext';
 
 import { useClient } from '@/hooks';
 
-const UserContextProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+const UserContextProvider = ({ children, initialUser }) => {
+  const [user, setUser] = useState(initialUser);
 
   const client = useClient();
 

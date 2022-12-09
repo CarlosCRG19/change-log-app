@@ -34,6 +34,7 @@ const Signup = () => {
 
       const { user } = await client.auth.me();
 
+      localStorage.setItem('cla-user', { username: user.username });
       setUser(user);
     } catch (error) {
       if (error.code === 'EMAIL_EXISTS') {
@@ -45,7 +46,7 @@ const Signup = () => {
   return (
     <Container>
       <Row className="align-items-center">
-        <Col className="mx-auto" md={8}>
+        <Col className="mx-auto" md={8} lg={6}>
           <Card>
             <Card.Header className="text-center py-3" as="h4">Signup</Card.Header>
             <Card.Body>

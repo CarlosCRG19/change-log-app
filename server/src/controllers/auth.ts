@@ -1,6 +1,6 @@
 import { Response, Request } from 'express';
 
-import { EmailExistsError } from '@/errors';
+import { EmailExistsError, InvalidPasswordError } from '@/errors';
 import { auth } from '@/lib';
 import { Users } from '@/models';
 
@@ -38,6 +38,11 @@ export const login = async (req: Request, res: Response): Promise<void> => {
 
     res.status(200).send({ idToken, user });
   } catch (error) {
+    if (error.response?.data?.error?.message === 'INVALID_PASSWORD') {
+      res.status(401).json({ error: new InvalidPasswordError() });
+      return;
+    }
+
     res.status(500).json({ message: 'Something went wrong!', ...error });
   }
 };

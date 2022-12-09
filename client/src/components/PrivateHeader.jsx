@@ -17,6 +17,7 @@ const PrivateHeader = () => {
 
   const handleSignOut = () => {
     localStorage.removeItem('cla-token');
+    localStorage.removeItem('cla-user');
     window.location.reload();
   };
 

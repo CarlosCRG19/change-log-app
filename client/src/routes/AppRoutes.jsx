@@ -8,6 +8,7 @@ import {
 
 import {
   CreateProject,
+  CreateUpdate,
   EditProject,
   Login,
   ProjectDetail,
@@ -32,6 +33,7 @@ const AppRoutes = () => (
         <Route path="create" element={<CreateProject />} />
         <Route path=":projectId" element={<ProjectDetail />} />
         <Route path=":projectId/edit" element={<EditProject />} />
+        <Route path=":projectId/create-update" element={<CreateUpdate />} />
       </Route>
     </Route>
   </Routes>

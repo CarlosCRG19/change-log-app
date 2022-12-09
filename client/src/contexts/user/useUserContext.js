@@ -2,7 +2,7 @@ import { useContext } from 'react';
 
 import UserContext from './UserContext';
 
-const useAdminUser = () => {
+const useUserContext = () => {
   const context = useContext(UserContext);
 
   if (context === undefined) {
@@ -12,4 +12,4 @@ const useAdminUser = () => {
   return context;
 };
 
-export default useAdminUser;
+export default useUserContext;

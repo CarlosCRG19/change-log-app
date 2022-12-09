@@ -21,6 +21,7 @@ const ProjectDetail = () => {
 
   const navigateToEditProject = () => navigate(`/projects/${projectId}/edit`);
   const navigateToAllProjects = () => navigate('/projects');
+  const navigateToAddUpdate = () => navigate(`/projects/${projectId}/create-update`);
 
   const deleteProject = async () => {
     client.projects.delete(projectId);
@@ -47,6 +48,11 @@ const ProjectDetail = () => {
         <Col>
           <Button className="me-2 me-lg-0 ms-lg-2 px-3 float-lg-end" variant="danger" onClick={deleteProject}>Delete</Button>
           <Button className="px-3 float-lg-end" variant="warning" onClick={navigateToEditProject}>Edit</Button>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <Button className="px-5 float-lg-start mt-5" variant="primary" onClick={navigateToAddUpdate}>Add update</Button>
         </Col>
       </Row>
       <ProjectUpdates projectId={projectId} />

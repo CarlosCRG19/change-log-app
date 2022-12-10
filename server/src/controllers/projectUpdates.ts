@@ -30,6 +30,7 @@ export const getList = async (req: Request, res: Response): Promise<void> => {
   try {
     const updates = await ProjectUpdates.find({
       where: { project: { id: req.params.projectId } },
+      order: { createdAt: 'DESC' },
       relations: ['points'],
     });
 

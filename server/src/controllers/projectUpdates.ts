@@ -6,7 +6,7 @@ import { Projects, ProjectUpdates, UpdatePoints } from '@/models';
 interface ProjectUpdateDTO {
   id: string
   title: string
-  description?: string
+  description?: string | null
   type: string
   points: string[]
 }

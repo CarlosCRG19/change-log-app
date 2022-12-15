@@ -5,8 +5,8 @@ import * as projectUpdatesController from '@/controllers/projectUpdates';
 
 const router = express.Router();
 
-router.get('/', projectUpdatesController.getList);
-router.post('/', projectUpdatesController.create);
-router.delete('/:updateId', projectUpdatesController.remove);
+router.get('/:projectId/updates', projectUpdatesController.getList);
+router.post('/:projectId/updates', projectUpdatesController.create);
+router.delete('/:projectId/updates/:updateId', projectUpdatesController.remove);
 
 export default router;

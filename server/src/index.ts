@@ -23,7 +23,7 @@ const initializeExpress = (): void => {
   app.use('/', authMiddleware);
 
   app.use('/projects', projectsRoutes);
-  app.use('/projects/:projectId/updates', projectUpdatesRoutes);
+  app.use('/projects', projectUpdatesRoutes);
 
   app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}!`);

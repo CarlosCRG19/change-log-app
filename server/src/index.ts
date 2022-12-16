@@ -6,7 +6,12 @@ import dataSource from '@/dataSource';
 
 import { auth } from '@/lib';
 import { authMiddleware } from '@/middlewares';
-import { authRoutes, projectsRoutes, projectUpdatesRoutes } from '@/routes';
+import {
+  authPrivateRoutes,
+  authPublicRoutes,
+  projectsRoutes,
+  projectUpdatesRoutes,
+} from '@/routes';
 
 const initializeExpress = (): void => {
   let PORT: number = parseInt(process.env.PORT ?? '');
@@ -17,11 +22,12 @@ const initializeExpress = (): void => {
   app.use(cors());
   app.use(express.json());
 
-  app.use('/', authRoutes);
+  app.use('/', authPublicRoutes);
 
   // eslint-disable-next-line @typescript-eslint/no-misused-promises
   app.use('/', authMiddleware);
 
+  app.use('/', authPrivateRoutes);
   app.use('/projects', projectsRoutes);
   app.use('/projects', projectUpdatesRoutes);
 
